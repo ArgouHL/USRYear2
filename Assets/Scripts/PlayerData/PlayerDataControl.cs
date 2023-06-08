@@ -6,7 +6,9 @@ using System.IO;
 
 public class PlayerDataControl : MonoBehaviour
 {
-    public static PlayerDataControl instance;
+    public static PlayerDataControl instance; 
+    public PlayerData playerData;
+
     private void Awake()
     {
         if (instance != null)
@@ -18,10 +20,18 @@ public class PlayerDataControl : MonoBehaviour
         }
     }
 
-    
-    public PlayerData playerData;
+    private void Start()
+    {
+        LoadPlayer();
+    }
 
-  
+
+    public void NewRec()
+    {
+        playerData.NewData();
+        Save();
+        LoadPlayer();
+    }
 
     public bool LoadPlayer()
     {
@@ -31,7 +41,7 @@ public class PlayerDataControl : MonoBehaviour
             Debug.LogWarning("No save");
             return false;
         }         
-        playerData.Reverse(Load());
+        playerData.Reverse(_ac);
         return true;
     }
 

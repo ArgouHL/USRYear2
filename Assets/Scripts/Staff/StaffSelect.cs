@@ -12,7 +12,10 @@ public class StaffSelect : MonoBehaviour
     [SerializeField] private StaffShow[] staffShows;
 
     [SerializeField] private CanvasGroup ui;
-
+    private void Start()
+    {
+        StartSelect();
+    }
     private void Awake()
     {
         if (instance != null)
@@ -24,14 +27,17 @@ public class StaffSelect : MonoBehaviour
     public void StartSelect()
     {
         List<StaffData> _staffs = allStaff.ToList();
+        Debug.Log(allStaff.Length);
         List<StaffData> threeStaffs = new List<StaffData>();
         for (int i = 0; i < staffShows.Length; i++)
         {
-
             var index = Random.Range(0, _staffs.Count);
             var staff = _staffs[index];
-            while (threeStaffs.Contains(staff))
+
+
+            while (threeStaffs.Contains(staff)|| StageControl.instance.currentLevel.level == Level.easy && !staff.canApperFirst)
             {
+
                 index = Random.Range(0, _staffs.Count);
                 staff = _staffs[index];
 

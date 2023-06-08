@@ -28,6 +28,7 @@ public class StaffShow : MonoBehaviour
     {
         StageControl.instance.SetStaff(staffData);
         StaffSelect.instance.HideUI();
+        GameManagement.instance.StartLevel();
 
     }
 

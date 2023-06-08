@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: NewPlayer
   m_EditorClassIdentifier: 
   Player_Money: 0
-  nowOpenLevel: 0
+  nowOpenLevel: 2

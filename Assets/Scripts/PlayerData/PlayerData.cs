@@ -6,19 +6,28 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public int Player_Money;
-    public OpenLevel nowOpenLevel;
+    public bool normalOpen = false;
+    public bool hardOpen = false;
 
-    internal void Reload()
+    internal void NewData()
     {
         Player_Money = 0;
-        nowOpenLevel = OpenLevel.One;
+        normalOpen = false;
+        hardOpen = false;
 
     }
 
-    internal void SetOpenLevel(OpenLevel level)
+    internal void NormalOpenLevel()
     {
-        nowOpenLevel = level;
+        normalOpen = true;
     }
+
+
+    internal void HardOpenLevel()
+    {
+        hardOpen = true;
+    }
+
 
     internal void GetMoney(int money)
     {
@@ -27,7 +36,8 @@ public class PlayerData : ScriptableObject
     internal void Reverse(Account ac)
     {
         Player_Money = ac.Player_Money;
-        nowOpenLevel = ac.newOpenLevel;
+        normalOpen = ac.normalOpen;
+        hardOpen = ac.hardOpen;
 
     }
 }
@@ -35,11 +45,15 @@ public class PlayerData : ScriptableObject
 public class Account
 {
     internal int Player_Money;
-    internal OpenLevel newOpenLevel;
+    internal bool normalOpen;
+    internal bool hardOpen;
+
     internal Account(PlayerData ac)
     {
         Player_Money = ac.Player_Money;
-        newOpenLevel = ac.nowOpenLevel;
+        normalOpen = ac.normalOpen;
+        hardOpen = ac.hardOpen;
+
 
     }
 }

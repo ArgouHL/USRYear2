@@ -17,10 +17,13 @@ public class StaffData : ScriptableObject
 
     [Multiline]
     [SerializeField] private string info;
+    [SerializeField] private int cost;
+    public int Cost { get { return cost; } }
+
     public string Info { get { return info; } }
 
-
+    public bool canApperFirst = true; 
 
 }
 
-public enum StaffType { Normal}
+public enum StaffType { normal,earnMore,correcter,fastCust,lessRain,longerTime}

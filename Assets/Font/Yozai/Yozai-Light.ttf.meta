@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5485fbdf69a92c24084e84813e09a04b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Yozai
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 927babe3df0cd0540b9e70c8bd856cad, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

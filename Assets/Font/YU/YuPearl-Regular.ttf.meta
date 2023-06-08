@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: aad90ce2d86f8b6428254957908dd798
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - YuPearl
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c027226c2fe4f9342947fced5c9b6c19, type: 3}
+  - {fileID: 12800000, guid: 31871b8ed7f7bf3428a56c26971b3b00, type: 3}
+  - {fileID: 12800000, guid: 084f8bad51e979e4597845788034b21e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

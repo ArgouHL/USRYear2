@@ -9,11 +9,8 @@ using UnityEngine.SceneManagement;
 [CreateAssetMenu(menuName = "StageData/Creat new Stage")]
 public class StageDataObj : ScriptableObject
 {
-    [SerializeField]
-    private Sprite portImg;
-    public Sprite PortImg { get { return portImg; } }
 
-
+    public Level level;
 
     [SerializeField]
     private string portName;
@@ -28,7 +25,12 @@ public class StageDataObj : ScriptableObject
     private GoodType[] stageGoods;
     public GoodType[] StageGoods { get { return stageGoods; } }
     public string StageGoodsString()
-    { return stageGoods[0] + "," + stageGoods[01] + "," + stageGoods[2]; }
+    { return SelfCodeHelper.GetGoodName(stageGoods[0]) + "," + SelfCodeHelper.GetGoodName(stageGoods[01]) + "," + SelfCodeHelper.GetGoodName(stageGoods[2]); }
+
+
+    [SerializeField]
+    private int cost;
+    public int Cost { get { return cost; } }
 
     [SerializeField]
     private AnimationCurve easyQuestion;
@@ -47,5 +49,5 @@ public class StageDataObj : ScriptableObject
 
 
 }
-
-public enum GoodType { Paper, China, Seafood, Medi, Cloth, Suger, Rice }
+public enum Level { easy, normal, hard }
+public enum GoodType { Paper, China, Seafood, Medi, Cloth, Tea, Rice }

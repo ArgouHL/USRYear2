@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class UIMove : MonoBehaviour
 {
     [SerializeField]
     protected CanvasGroup canvasGroup;
 
     [SerializeField]
-    protected RectTransform showPos, hidePos;
+    protected RectTransform showPos, hidePosL, hidePosR;
 
     [SerializeField]
     protected float duration;
@@ -16,8 +17,12 @@ public class UIMove : MonoBehaviour
     [SerializeField]
     protected LeanTweenType inType,outType;
 
+    [SerializeField] private bool isShowing;
     public void Show()
     {
+        if (isShowing)
+            return;
+        isShowing = true;
         LeanTween.move(canvasGroup.gameObject, showPos.position, duration).setEase(inType).setOnComplete(() =>
         {
             canvasGroup.interactable = true;
@@ -28,9 +33,12 @@ public class UIMove : MonoBehaviour
 
     public void hide()
     {
+        if (!isShowing)
+            return;
+        isShowing = false;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        LeanTween.move(canvasGroup.gameObject, hidePos.position, duration).setEase(outType);
+        LeanTween.move(canvasGroup.gameObject, hidePosL.position, duration).setEase(outType);
     }
 
 

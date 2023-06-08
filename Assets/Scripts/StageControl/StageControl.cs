@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StageControl : MonoBehaviour
@@ -8,15 +10,15 @@ public class StageControl : MonoBehaviour
 
     internal StageDataObj currentLevel;
     internal StaffData currentStaff;
+    internal int[] staffCost;
     [SerializeField]
     private GoodData[] goodDatas;
     private Dictionary<GoodType, GoodData> goodDict= new Dictionary<GoodType, GoodData>();
 
 
-    [SerializeField] private float gameTime=60f;
-    private int currentDay = 1;
-    internal float currentTime = 0;
+    [SerializeField] internal float gameTime=5;
     internal int week = 1;
+    internal int month = 1;
 
     private void Awake()
     {
@@ -37,25 +39,29 @@ public class StageControl : MonoBehaviour
         }
     }
 
+    internal int TotalStaffCost()
+    {
+        return staffCost.Sum();
+    }
+
     public void SetCurrentLevel(StageDataObj InputLevel)
     {
         currentLevel = InputLevel;
+        staffCost = new int[4];
+        week = 1;
+        ScoreCount.instance.Initialization();
     }
     
     
     
-    public void SetStaff(StaffData InputStaff)
+    public void SetStaff(StaffData inputStaff)
     {
-        currentStaff = InputStaff;
-        //game Start
-
+        currentStaff = inputStaff;
+        staffCost[week - 1] = inputStaff.Cost;
+        GameUI.instance.SetStaffImage(inputStaff);
     }
 
-    public void ResetTime()
-    {
-        currentTime = 0;
-    }
-
+   
 
     public List<GoodData> GetGoodsData()
     {
@@ -65,8 +71,31 @@ public class StageControl : MonoBehaviour
             GoodData gd;
             goodDict.TryGetValue(sg, out gd);
             _goods.Add(gd);
+            //Debug.Log(gd);
         }
         return _goods;
 
     }
+    public List<GoodType> GetGoodTypes()
+    {
+        var _goodsTypes = new List<GoodType>();
+        foreach (var sg in currentLevel.StageGoods)
+        {
+            GoodData gd;
+            goodDict.TryGetValue(sg, out gd);
+            _goodsTypes.Add(gd.type);
+        }
+        return _goodsTypes;
+    }
+
+    public void NextWeek()
+    {
+        week++;
+        LevelLoader.NextWeek();
+    }
+
+   
+
+
+
 }

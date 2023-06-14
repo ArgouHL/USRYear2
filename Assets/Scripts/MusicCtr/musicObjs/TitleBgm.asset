@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de55ca15dee870c49a734e3cefde2805, type: 3}
+  m_Name: TitleBgm
+  m_EditorClassIdentifier: 
+  bgm: {fileID: 8300000, guid: 3a86234681e8c114e9e66da2f9a54e41, type: 3}
+  offset: 0
+  bars: 34
+  bpm: 60
+  beatType: 2
+  type: 0

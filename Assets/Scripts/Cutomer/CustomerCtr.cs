@@ -32,6 +32,7 @@ public class CustomerCtr : MonoBehaviour
 
     public GameObject GetPre(CustType custType)
     {
+        Debug.Log(custType);
         GameObject _cust;
         switch (custType)
         {

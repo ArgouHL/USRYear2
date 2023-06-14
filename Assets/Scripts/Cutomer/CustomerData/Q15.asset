@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d5ba4a89ab40ac7d69a3b5ba98c, type: 3}
   m_Name: Q15
   m_EditorClassIdentifier: 
-  customerType: 6
+  customerType: 7
   goodType: 1
   questionDifficuly: 0
   questions:
-  - c
-  - c
+  - "\u54CE\u5440\uFF01"
+  - "\u771F\u662F\u6F02\u4EAE\u7684\u74F7\u5668"
+  - "\u6211\u53EF\u771F\u4E2D\u610F\u3002"

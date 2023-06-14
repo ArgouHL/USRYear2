@@ -20,6 +20,7 @@ public class UIMove : MonoBehaviour
     [SerializeField] private bool isShowing;
     public void Show()
     {
+        SfxControl.instance.PlayClick();
         if (isShowing)
             return;
         isShowing = true;
@@ -31,16 +32,36 @@ public class UIMove : MonoBehaviour
         });
     }
 
-    public void hide()
+    public void hideRight()
     {
+        hide(Way.R);
+    }
+
+
+    public void hide(Way way)
+    {
+        SfxControl.instance.PlayClick();
         if (!isShowing)
             return;
         isShowing = false;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        LeanTween.move(canvasGroup.gameObject, hidePosL.position, duration).setEase(outType);
+        Transform w;
+        switch(way)
+        {
+            default:
+            case Way.L:
+                 w = hidePosL;
+                break;
+            case Way.R:
+                 w = hidePosR;
+                break;
+        }
+
+        LeanTween.move(canvasGroup.gameObject, w.position, duration).setEase(outType);
     }
 
 
 
 }
+public enum Way { L, R }

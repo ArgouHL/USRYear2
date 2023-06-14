@@ -28,7 +28,7 @@ public class GoodSelect : MonoBehaviour
 
     internal void Hide()
     {
-        ui.alpha = 0;
+        ui.alpha = 0.7f;
         ui.interactable = false;
     }
 

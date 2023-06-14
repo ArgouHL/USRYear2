@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Staff 6
   m_EditorClassIdentifier: 
   staffName: "\u54E1\u5DE5"
-  staffPic: {fileID: 21300000, guid: 7c3e0e17e23e8734ba27bfa29a067d53, type: 3}
+  staffPic: {fileID: 21300000, guid: f995b39ad4261b844aab2038fa9a4b32, type: 3}
   type: 4
   info: "\u3010\u9806\u98A8\u8033\u3011\n\u6E1B\u5C11\u53D7\u969C\u7919\u7684\u6A5F\u7387"
-  cost: 0
+  cost: 15
   canApperFirst: 1

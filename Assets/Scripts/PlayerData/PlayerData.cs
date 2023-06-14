@@ -8,10 +8,12 @@ public class PlayerData : ScriptableObject
     public int Player_Money;
     public bool normalOpen = false;
     public bool hardOpen = false;
+    public int month;
 
     internal void NewData()
     {
         Player_Money = 0;
+        month = 1;
         normalOpen = false;
         hardOpen = false;
 
@@ -28,6 +30,10 @@ public class PlayerData : ScriptableObject
         hardOpen = true;
     }
 
+    internal void saveMounth(int _month)
+    {
+        month = _month;
+    }
 
     internal void GetMoney(int money)
     {
@@ -38,6 +44,7 @@ public class PlayerData : ScriptableObject
         Player_Money = ac.Player_Money;
         normalOpen = ac.normalOpen;
         hardOpen = ac.hardOpen;
+        month = ac.month;
 
     }
 }
@@ -47,13 +54,13 @@ public class Account
     internal int Player_Money;
     internal bool normalOpen;
     internal bool hardOpen;
-
+    internal int month;
     internal Account(PlayerData ac)
     {
         Player_Money = ac.Player_Money;
         normalOpen = ac.normalOpen;
         hardOpen = ac.hardOpen;
-
+        month = ac.month;
 
     }
 }

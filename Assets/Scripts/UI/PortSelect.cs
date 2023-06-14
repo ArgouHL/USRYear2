@@ -20,18 +20,33 @@ public class PortSelect : MonoBehaviour
 
     [SerializeField] private RectTransform port2, port3;
 
-
+    [SerializeField] private TMP_Text nowMonth;
+    [SerializeField] private TMP_Text nowMoney;
+    [SerializeField] private CanvasGroup state;
     public void Start()
     {
         SetPort();
+        
+    }
+
+    private void ShowData()
+    {
+        state.alpha = 1;
+        nowMonth.text = SelfCodeHelper.GetMonth(StageControl.currentMonth);
+        nowMoney.text = PlayerDataControl.instance.playerData.Player_Money.ToString();
     }
 
     private void SetPort()
     {
+
+        nowMonth.text = SelfCodeHelper.GetMonth(StageControl.currentMonth);
+        nowMoney.text = PlayerDataControl.instance.playerData.Player_Money.ToString();
+
         if (PlayerDataControl.instance.playerData.normalOpen)
             port2.gameObject.SetActive(true);
         else
             port2.gameObject.SetActive(false);
+
         if (PlayerDataControl.instance.playerData.hardOpen)
             port3.gameObject.SetActive(true);
         else
@@ -44,12 +59,13 @@ public class PortSelect : MonoBehaviour
         buttons.interactable = true;
         buttons.blocksRaycasts = true;
         SetPort();
-       
 
+        ShowData();
     }
 
     public void ShowTargetPort(StageDataObj stageData)
     {
+        SfxControl.instance.PlayClick();
         SelectedStage = stageData;
         InfoUI.alpha = 1;
         InfoUI.interactable = true;
@@ -69,9 +85,13 @@ public class PortSelect : MonoBehaviour
 
     public void SelectStagePortAndStartGame()
     {
+        SfxControl.instance.PlayClick();
         if (SelectedStage != null)
         {
-            LevelLoader.NewGame(SelectedStage);
+
+            MusicControl.instance.SoftStopBGM();
+            GameFade.instance.FadeOut(1f);
+            LeanTween.delayedCall(1.2f,()=>LevelLoader.NewGame(SelectedStage));
             //Load Scene
 
         }

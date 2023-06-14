@@ -14,27 +14,37 @@ public class ResultShow : MonoBehaviour
         else
             instance = this;
     }
-    [SerializeField] private CanvasGroup resultUI, winUI, loseUI, earnUI, staffCostUI, levelCostUI, totalUI, winBtns, loseBtns;
-    [SerializeField] TMP_Text earn, staffCost, levelCost, total;
+    [SerializeField] private CanvasGroup orgMUI, resultUI, winUI, loseUI, earnUI, staffCostUI, levelCostUI, totalUI, winBtns, loseBtns;
+    [SerializeField] TMP_Text orgMoney,earn, staffCost, levelCost, total;
 
-    public int CalAndShowResult(int income)
+    public int CalAndShowResult(int orgmoney,int income,out int netIncome)
     {
 
         var _income = income;
         var _staffcost = StageControl.instance.TotalStaffCost();
         var _levelcost = StageControl.instance.currentLevel.Cost;
         int net = income - _staffcost - _levelcost;
-        StartCoroutine(ResultShowIE(_income, _staffcost, _levelcost, net));
+        netIncome = net;
+        StartCoroutine(ResultShowIE(orgmoney,_income, _staffcost, _levelcost, net));
         return net;
     }
 
-    private IEnumerator ResultShowIE(int income, int staffcost, int levelcost, int net)
+    private IEnumerator ResultShowIE(int orgmoney,int income, int staffcost, int levelcost, int net)
     {
         int addPerSecond = 1000;
         resultUI.alpha = 1;
         resultUI.blocksRaycasts = true;
         resultUI.interactable = true;
-      
+
+        orgMUI.alpha = 1;
+        int _org = 0;
+        while (_org < orgmoney)
+        {
+            _org += (int)(addPerSecond * Time.deltaTime);
+            orgMoney.text = _org.ToString();
+            yield return null;
+        }
+        orgMoney.text = orgmoney.ToString();
         earnUI.alpha = 1;
         int _income = 0;
         while (_income < income)
@@ -66,43 +76,65 @@ public class ResultShow : MonoBehaviour
         levelCost.text = levelcost.ToString();
         yield return new WaitForSeconds(1f);
         totalUI.alpha = 1;
-        int _net = 0;
-        int absNet = Mathf.Abs(net);
-        while (_net < absNet)
+        int final = orgmoney + net;
+
+
+        int _final = 0;
+        int absfinal = Mathf.Abs(final);
+        while (_final < absfinal)
         {
-            _net += (int)(addPerSecond * Time.deltaTime);
-            
-            total.text = net>=0?_net.ToString():"-"+ _net.ToString();
+            _final += (int)(addPerSecond * Time.deltaTime);
+
+            total.text = net >= 0 ? _final.ToString() : "-" + _final.ToString();
             yield return null;
         }
-        total.text = net >= 0 ? absNet.ToString() : "-" + absNet.ToString();
-        if (net >= 0)
-            LeanTween.value(0, 1, 2).setOnUpdate((float val) => winUI.alpha = val).setOnComplete(() =>
-                {
-                    winBtns.alpha = 1;
-                    winBtns.interactable = true;
-                    winBtns.blocksRaycasts = true;
+        total.text = final >= 0 ? absfinal.ToString() : "-" + absfinal.ToString();
 
-                });
+
+        if (final >= 0)
+        {
+           
+            if (StageControl.currentMonth != 4)
+            {
+                LeanTween.value(0, 1, 2).setOnUpdate((float val) => winUI.alpha = val).setOnComplete(() =>
+                  {
+                      winBtns.alpha = 1;
+                      winBtns.interactable = true;
+                      winBtns.blocksRaycasts = true;
+                  });
+            }
+            else
+            {
+              FianlShow.instance.Pass();
+            }
+        }
+
         else
             LeanTween.value(0, 1, 2).setOnUpdate((float val) => loseUI.alpha = val).setOnComplete(() =>
             {
-               
-                loseBtns.alpha = 1;
-                loseBtns.interactable = true;
-                loseBtns.blocksRaycasts = true;
-                PlayerDataControl.instance.NewRec();
+
+                //loseBtns.alpha = 1;
+                //loseBtns.interactable = true;
+                //loseBtns.blocksRaycasts = true;
+                //PlayerDataControl.instance.NewRec();
+                FianlShow.instance.Fail();
             });
     }
 
 
     public void NextGame()
     {
-        SceneManager.LoadScene("ContinueMenu");
+        SfxControl.instance.PlayClick();
+        GameFade.instance.FadeOut(1f);
+        LeanTween.delayedCall(1.2f, () => 
+        SceneManager.LoadScene("ContinueMenu"));
     }
 
     public void BackTitle()
     {
-        SceneManager.LoadScene("Menu");
+        SfxControl.instance.PlayClick();
+        GameFade.instance.FadeOut(1f);
+        LeanTween.delayedCall(1.2f, () =>
+        SceneManager.LoadScene("Menu"));
     }
 }

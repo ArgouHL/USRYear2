@@ -19,7 +19,7 @@ public class StaffShow : MonoBehaviour
     {
         staffData = _staffData;
         pic.sprite = staffData.StaffPic;
-        staffName.text = staffData.StaffName;
+        staffName.text = staffData.Cost.ToString();
         staffInfo.text = staffData.Info;
         select.interactable = true;
     }
@@ -29,6 +29,7 @@ public class StaffShow : MonoBehaviour
         StageControl.instance.SetStaff(staffData);
         StaffSelect.instance.HideUI();
         GameManagement.instance.StartLevel();
+        SfxControl.instance.PlayClick();
 
     }
 

@@ -8,7 +8,7 @@ public class GameFade : MonoBehaviour
 {
     public static GameFade instance;
 
-
+    [SerializeField] private bool StartFadeIn = true;
     [SerializeField] private CanvasGroup fadeUI, week;
     [SerializeField] private TMP_Text weekText;
     [SerializeField] private float fadeInDuration = 1;
@@ -30,22 +30,25 @@ public class GameFade : MonoBehaviour
 
     private void FadeIn()
     {
-        weekText.text = SelfCodeHelper.GetWeek(StageControl.instance.week);
-        LeanTween.value(0, 1, fadeInDuration).setOnUpdate((float val) => week.alpha = val)
-            .setOnComplete(() =>
-            LeanTween.delayedCall(1, () =>
-             LeanTween.value(1, 0, fadeInDuration).setOnUpdate((float val) => fadeUI.alpha = val)
-             .setOnComplete(() =>
-             {
-                 fadeUI.interactable = false;
-                 fadeUI.blocksRaycasts = false;
-                
-             }
-             )));
+
+        weekText.text = SelfCodeHelper.GetWeek(StageControl.currentWeek);
+        if (StartFadeIn)
+            LeanTween.value(0, 1, fadeInDuration).setOnUpdate((float val) => week.alpha = val)
+                .setOnComplete(() =>
+                LeanTween.delayedCall(1, () =>
+                 LeanTween.value(1, 0, fadeInDuration).setOnUpdate((float val) => fadeUI.alpha = val)
+                 .setOnComplete(() =>
+                 {
+                     fadeUI.interactable = false;
+                     fadeUI.blocksRaycasts = false;
+
+                 }
+                 )));
     }
 
     public void FadeOut(float duration)
     {
+        Debug.Log("fadeout");
         fadeUI.interactable = true;
         fadeUI.blocksRaycasts = true;
         week.alpha = 0;

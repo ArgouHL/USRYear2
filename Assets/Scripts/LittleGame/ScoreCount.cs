@@ -9,7 +9,7 @@ public class ScoreCount : MonoBehaviour
 
     private void Awake()
     {
-        if(instance!=null)
+        if (instance != null)
         {
             Destroy(gameObject);
         }
@@ -31,22 +31,26 @@ public class ScoreCount : MonoBehaviour
         //updateShow
     }
 
- public void FinalCount()
+    public void FinalCount()
     {
-        ResultShow.instance.CalAndShowResult(income);
+        ResultShow.instance.CalAndShowResult(PlayerDataControl.instance.playerData.Player_Money,income, out int netIncome);
+        AddToPlayer(netIncome);
+
     }
 
-   
 
 
 
 
 
 
-    public void AddToPlayer()
+
+    public void AddToPlayer(int netIncome)
     {
-        PlayerDataControl.instance.playerData.GetMoney(income);
-        PlayerDataControl.instance.Save();
+        if (netIncome <= 0)
+            return;
+        PlayerDataControl.instance.playerData.GetMoney(netIncome);
+        //PlayerDataControl.instance.Save();
     }
 
 }

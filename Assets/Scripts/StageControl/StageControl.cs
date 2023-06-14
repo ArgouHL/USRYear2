@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,8 +15,8 @@ public class StageControl : MonoBehaviour
 
 
     [SerializeField] internal float gameTime=5;
-    internal int week = 1;
-    internal int month = 1;
+    internal static int currentWeek = 1;
+    internal static int currentMonth = 1;
 
     private void Awake()
     {
@@ -48,7 +46,7 @@ public class StageControl : MonoBehaviour
     {
         currentLevel = InputLevel;
         staffCost = new int[4];
-        week = 1;
+        currentWeek = 1;
         ScoreCount.instance.Initialization();
     }
     
@@ -57,7 +55,7 @@ public class StageControl : MonoBehaviour
     public void SetStaff(StaffData inputStaff)
     {
         currentStaff = inputStaff;
-        staffCost[week - 1] = inputStaff.Cost;
+        staffCost[currentWeek - 1] = inputStaff.Cost;
         GameUI.instance.SetStaffImage(inputStaff);
     }
 
@@ -90,7 +88,8 @@ public class StageControl : MonoBehaviour
 
     public void NextWeek()
     {
-        week++;
+        currentWeek++;
+        
         LevelLoader.NextWeek();
     }
 

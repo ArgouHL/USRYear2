@@ -14,7 +14,7 @@ public class GameManagement : MonoBehaviour
     private List<QuestionData> normalCustomer = new List<QuestionData>();
     private List<QuestionData> hardCustomer = new List<QuestionData>();
     private RandomObjs<Difficulty> selector = new RandomObjs<Difficulty>();
-    private Question currentCustomer;
+    private Question currentCustomer, lastCustomer;
     private bool isSelected = true;
     private bool gameEnd = false;
     float time = 0;
@@ -33,7 +33,11 @@ public class GameManagement : MonoBehaviour
     private void Start()
     {
         ResetAll();
-        GetCustomers(StageControl.instance.week);
+        GetCustomers(StageControl.currentWeek);
+        if (MusicControl.gameBGMPlaying)
+            return;
+        MusicControl.instance.PlayBGM(bgmType.gamePlay);
+        MusicControl.gameBGMPlaying = true;
         //GameStart();
     }
 
@@ -90,6 +94,7 @@ public class GameManagement : MonoBehaviour
             return;
         }
         GameCoro = StartCoroutine(GameIE());
+        RainBlock.instance.StartToWaitRain();
     }
 
     internal void SelectGood(GoodType goodType)
@@ -108,16 +113,25 @@ public class GameManagement : MonoBehaviour
             //LogHappy
             float index = StageControl.instance.currentStaff.Type == StaffType.earnMore ? 1.2f : 1f;
             ScoreCount.instance.AddMoney((int)(GoodManager.instance.GetPrice(goodType) * index));
-            GameUI.instance.AddLog("賣出了" + SelfCodeHelper.GetGoodName(goodType) + "!");
+            GameUI.instance.UpdateMoney();
+            GameUI.instance.AddLog("賣出了" + SelfCodeHelper.GetGoodName(goodType) + "。");
+            SfxControl.instance.PlayCoin();
         }
         else
         {
             currentCustomer.Sad();
             GameUI.instance.AddLog("客人覺得不開心。");
+            SfxControl.instance.PlaySad();
         }
         isSelected = true;
     }
 
+
+    public void DebugGetMoney()
+    {
+        
+        StageControl.currentWeek = 4;
+    }
     private IEnumerator GameIE()
     {
         StartCoroutine(TimeCount());
@@ -157,6 +171,10 @@ public class GameManagement : MonoBehaviour
     {
 
         currentCustomer = new Question(RandomCustomer());
+        while(lastCustomer== currentCustomer)
+        {
+            currentCustomer = new Question(RandomCustomer());
+        }
         currentCustomer.GenCustomer(Instantiate(currentCustomer.customerPre, custPos));
        
         //Play Cust Enter Ani
@@ -197,8 +215,8 @@ public class GameManagement : MonoBehaviour
         QuestionUIControl.instance.HideQuestion();
         yield return new WaitForSeconds(1);
         currentCustomer.Leave();
-        var _customer = currentCustomer;
-        LeanTween.delayedCall(1.5f, _customer.Off);
+        lastCustomer = currentCustomer;
+        LeanTween.delayedCall(1.5f, lastCustomer.Off);
         GameUI.instance.AddLog("客人離開了");
         GameUI.instance.AddLog("");
         yield return new WaitForSeconds(0.5f);
@@ -229,31 +247,39 @@ public class GameManagement : MonoBehaviour
 
     public void GameStop()
     {
-        if (StageControl.instance.week <= 3)
+        MusicControl.gameBGMPlaying = false;
+        MusicControl.instance.SoftStopBGM();
+        RainBlock.instance.StopRain();
+        if (StageControl.currentWeek <= 3)
         {
 
             LeanTween.delayedCall(1.5f, () => StageControl.instance.NextWeek());
             GameFade.instance.FadeOut(1);
         }
-        else if (StageControl.instance.week == 4)
+        else if (StageControl.currentWeek == 4)
         {
+            StageControl.currentMonth++;
+            PlayerDataControl.instance.playerData.saveMounth(StageControl.currentMonth);
+            switch (StageControl.instance.currentLevel.level)
+            {
+                case Level.easy:
+                    PlayerDataControl.instance.playerData.NormalOpenLevel();
+                    break;
+                case Level.normal:
+                    PlayerDataControl.instance.playerData.HardOpenLevel();
+                    break;
+            }
             LeanTween.delayedCall(1.5f, () =>
             {
-                switch (StageControl.instance.currentLevel.level)
-                {
-                    case Level.easy:
-                        PlayerDataControl.instance.playerData.NormalOpenLevel();
-                        break;
-                    case Level.normal:
-                        PlayerDataControl.instance.playerData.HardOpenLevel();
-                        break;
-                }
+              
                 ScoreCount.instance.FinalCount();
 
             });
         }
         else
             Debug.LogError("WrongWeek");
+
+        PlayerDataControl.instance.Save();
     }
 
     private bool isThirdCust()

@@ -68,6 +68,27 @@ public class SelfCodeHelper
         return _week;
     }
 
+    public static string GetMonth(int month)
+    {
+        string _month;
+        switch (month)
+        {
+            
+            case 1:
+                _month = "四月";
+                break;
+            case 2:
+                _month = "五月";
+                break;
+            case 3:
+            default:
+                _month = "六月";
+                break;
+           
+        }
+        return _month;
+    }
+
 
 
 }

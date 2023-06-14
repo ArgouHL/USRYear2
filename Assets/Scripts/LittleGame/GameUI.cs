@@ -21,16 +21,28 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_Text gameTime;
     [SerializeField] private TMP_Text gameWeek;
     [SerializeField] private TMP_Text logText;
-
+    [SerializeField] private TMP_Text gameMoney;
+    [SerializeField] private TMP_Text gamelocation;
     public Image staffImg;
+
+    private void Start()
+    {
+        ShowGameWeekAndLocation();
+        UpdateMoney();
+    }
+
+
     public void UpdateGameTime(float timefloat)
     {
         TimeSpan time = TimeSpan.FromSeconds(timefloat);
         gameTime.text = time.ToString("m':'ss");
     }
-    public void ShowGameWeek(int week)
+    
+
+    public void ShowGameWeekAndLocation()
     {
-        gameWeek.text = "²Ä" + week + "¶g";
+        gameWeek.text = SelfCodeHelper.GetMonth(StageControl.currentMonth) + " " + SelfCodeHelper.GetWeek(StageControl.currentWeek);
+        gamelocation.text = StageControl.instance.currentLevel.PortName;
     }
 
     public void AddLog(string log)
@@ -54,6 +66,13 @@ public class GameUI : MonoBehaviour
 
     public void SetStaffImage(StaffData staffData)
     {
+    
         staffImg.sprite = staffData.StaffPic;
+        staffImg.color = Color.white;
+    }
+
+    public void UpdateMoney()
+    {
+        gameMoney.text = ScoreCount.instance.income.ToString() ;
     }
 }

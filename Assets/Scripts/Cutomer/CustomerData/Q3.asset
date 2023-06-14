@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d5ba4a89ab40ac7d69a3b5ba98c, type: 3}
   m_Name: Q3
   m_EditorClassIdentifier: 
-  customerType: 6
+  customerType: 0
   goodType: 6
   questionDifficuly: 0
   questions:
-  - r
+  - "\u982D\u5BB6\uFF01\u9019\u88E1\u6709\u6C92\u6709\u7C73\u963F\uFF1F"
